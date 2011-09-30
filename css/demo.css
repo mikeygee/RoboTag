@@ -1,0 +1,298 @@
+body {
+	font-size: 16px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	margin: 0;
+	background: #DDD no-repeat fixed 0 0;
+	background: -moz-linear-gradient(center top, #DDD, #FFF) no-repeat fixed 0 0;
+	background: -webkit-gradient(linear, center top, center bottom, from(#DDD), to(#FFF)) no-repeat fixed 0 0;
+	background: linear-gradient(center top, #DDD, #FFF);
+}
+
+#header {
+	margin-top: 30px;
+}
+
+#logo {
+	padding: 20px 16px 22px 20px;
+	background-color: #777;
+	border-radius: 5px;
+}
+
+a:link {text-decoration: none; }
+a:visited {text-decoration: none; }
+a:hover {text-decoration: underline; }
+a:active {text-decoration: underline; }
+
+.code, .display {
+	margin-top: 40px;
+	margin-bottom: 20px;
+	border: 1px solid #777;
+	padding: 20px 0px;
+	border-radius: 5px;
+	background-color: #CFCFCF;
+	position: relative;
+}
+
+.instruction {
+	position: absolute;
+	top: -25px;
+	right: 5px;
+	border-left: 1px solid #777;
+	border-top: 1px solid #777;
+	border-right: 1px solid #777;
+	border-radius: 5px 5px 0px 0px;
+	padding: 0px 4px;
+}
+
+#p1 .header, #p2 .header, .editor {
+	margin: 0 auto;
+	width: 420px;
+}
+
+.editor {
+	height: 460px;
+	border: 1px solid #777;
+	background-color: #FFF;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+#p1 .controls, #p2 .controls {
+	margin-top: 480px;
+	text-align: center;
+}
+
+.samples {
+	vertical-align: middle;
+}
+
+#p1 .save, #p2 .save {
+	display: inline;
+	margin-left: 10px;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.display {
+	margin-top: 80px;
+}
+
+.p1-text, .p2-text, .tie-text {
+	padding: 2px 4px;
+}
+
+.p1-text {
+	background-color: #FFF;
+	color: #333;
+}
+
+.p2-text {
+	background-color: #000;
+	color: #FFF;
+}
+
+.neutral-text {
+	background-color: #DDD;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;
+}
+
+.shadow {
+	box-shadow: 0 0 5px #888;
+	-moz-box-shadow: 0 0 5px #888;
+	-webkit-box-shadow: 0 0 5px #888;
+}	
+
+#p1-img, #p2-img, #check, #x {
+	height: 50px;
+	vertical-align: middle;
+}
+
+#images {
+	display: none;
+}
+
+.vs {
+	font-size: 30px;
+}
+
+.success {
+	background-color: #43BC5D;
+	color: #FFF;
+	padding: 2px 4px;
+}
+
+.error {
+	background-color: #C00;
+	color: #FFF;
+	padding: 2px 4px;
+}
+
+#results {
+	height: 50px;
+}
+
+#results .message {
+	font-size: 20px;
+	padding: 5px 10px;
+	display: inline-block;
+	vertical-align: middle;
+	visibility: hidden;
+}
+
+#players .p1-text, #players .p2-text, #p1 .message, #p2 .message {
+	margin: 0px 5px;
+}
+
+#game-header {
+	width: 530px;
+	margin: 0 auto;
+}
+
+#results .p1, #results .p2 {
+	display: inline-block;
+	width: 50px;
+	margin: 0;
+}
+
+#results .center {
+	display: inline-block;
+	vertical-align: middle;
+	width: 420px;
+	margin: 0;
+}
+
+#stats .p1, #stats .p2 {
+	display: inline-block;
+	width: 215px;
+	margin: 0;
+}
+
+#players .p1, #players .p2 {
+	display: inline-block;
+	width: 240px;
+	margin: 0;
+}
+#stats .center {
+	display: inline-block;
+	width: 90px;
+}
+
+#players .vs {
+	display: inline-block;
+	width: 40px;
+}
+
+#stats .time {
+	display: inline-block;
+}
+
+#stats .p1-text, #stats .time, #stats .p2-text {
+	width: 42px;
+}
+
+#stats {
+	margin-top: 5px;
+}
+
+#error-dialog {
+	font-size: 14px;
+}
+
+.display #canvas-div {
+	width: 610px;
+	margin: auto;
+	position: relative;
+}
+
+#canvas-alt {
+	width: 500px;
+	height: 500px;
+	position: absolute;
+	top: 30px;
+	left: 55px;
+	display: none;
+}
+
+#canvas-alt h1 {
+	text-align: center;
+}
+
+#canvas-alt table {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#canvas-alt .stat {
+	text-align: center;
+	background-color: #AAA;
+}
+
+#canvas-alt .p1 {
+	text-align: right;
+	background-color: #FFF;
+	color: #333;
+}
+
+#canvas-alt .p2 {
+	background-color: #000;
+	color: #FFF;
+}
+
+#series-results {
+	font-size: 36px;
+}
+
+#series-stats {
+	font-size: 14px;
+}
+
+#series-results td {
+	padding: 0px 20px;
+}
+
+#series-stats td {
+	padding: 0px 10px;
+}
+
+#play {
+	vertical-align: middle;
+}
+
+#seeker {
+	width: 500px;
+	font-size: 10px;
+	display: inline-block;
+}
+
+#controls {
+	margin: 0 auto;
+	text-align: center;
+	font-size: 16px;
+}
+
+#display-options {
+	font-size: 12px;
+	margin-top: 10px;
+}
+
+.label {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#rematch, #swap, #series {
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+#footer {
+	margin 0 auto;
+	height: 40px;
+}
