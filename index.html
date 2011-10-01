@@ -1,243 +1,265 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="Javascript, game, AI"  />
-		<link type="text/css" rel="stylesheet" href="css/reset.css" />
-		<link type="text/css" rel="stylesheet" href="css/text.css" />
-		<link type="text/css" rel="stylesheet" href="css/960.css" />
-		<link type="text/css" rel="stylesheet" href="css/jquery-ui-1.8.13.custom.css" />
-		<link type="text/css" rel="stylesheet" href="css/demo.css" />
-		<title>RoboTag</title>
-	</head>
-	<body>
-		<div id="header">
-			<div class="container_12">
-				<span id="logo"><a href="/RoboTag"><img src="images/logo.png" alt="logo" /></a></span>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Javascript, game, AI"  />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="css/jquery-ui-1.8.13.custom.css" />
+	<link type="text/css" rel="stylesheet" href="css/demo.css" />
+	<title>RoboTag</title>
+</head>
+<body>
+<div class="container">
+	<div id="header" class="row">
+		<div class="span8">
+			<a href="/RoboTag"><img id="logo" src="images/logo.png" alt="logo" /></a>
+		</div>
+	</div>
+	<div class="step row">
+		<div class="span16"><h2>Step 1 <small>Create and/or select robots for a match.</small></h2></div>
+	</div>
+	<div id="step1">
+	<div class="code-header row">
+		<div class="p1 span8">
+			<span class="p1-text">Player 1</span>
+			<span class="message"></span>
+		</div>
+		<div class="p2 span8 right">
+			<span class="message"></span>
+			<span class="p2-text">Player 2</span>
+		</div>
+	</div>
+	<div class="editor row">
+		<div class="span8">
+			<div id="editor1"></div>
+		</div>
+		<div class="span8">
+			<div id="editor2"></div>
+		</div>
+	</div>
+	<div class="editor-controls row">
+		<div class="p1 span8 center">
+			<select class="samples medium">
+				<option selected="selected">Player 1</option>
+				<optgroup label="Samples">
+				<option>Lazy Bot</option>
+				<option>Random Bot</option>
+				<option>Bouncy Bot</option>
+				<option>Hungry Bot</option>
+				</optgroup>
+			</select>
+			<button type="button" class="save">Submit</button>
+		</div>
+		<div class="p2 span8 center">
+			<select class="samples medium">
+				<option selected="selected">Player 2</option>
+				<optgroup label="Samples">
+				<option>Lazy Bot</option>
+				<option>Random Bot</option>
+				<option>Bouncy Bot</option>
+				<option>Hungry Bot</option>
+				</optgroup>
+			</select>
+			<button type="button" class="save">Submit</button>
+		</div>
+	</div>
+	</div>
+	<div class="step row">
+		<div class="span16"><h2>Step 2 <small>Watch robots in action. This becomes active after 2 valid robots are submitted.</small></h2></div>
+	</div>
+	<div id="step2">
+	<div class="game-status row">
+		<div class="span2 p1 right"></div>
+		<div class="span12 center">
+			<span class="message"></span>
+		</div>
+		<div class="span2 p2"></div>
+	</div>
+	<div class="names-time row">
+		<div class="span7">
+			<span class="p1-text">Player 1</span>
+		</div>
+		<div class="span2">
+			<strong>TIME</strong>
+			<div class="time center neutral-text">0</div>
+		</div>
+		<div class="span7 right">
+			<span class="p2-text">Player 2</span>
+		</div>
+	</div>
+	<div class="display row">
+		<div class="span2 right">
+			<img id="p1-img" src="images/robot1.png" alt = "robot1"/><br>
+			<div class="p1-text center">1000</div>
+			<div id="display-options">
+				<fieldset>
+				<span class="neutral-text">Display</span>
+				<label for="coords" title="Show/Hide robot coordinates">
+					(x,y) <input type="checkbox" id="coords" checked="checked"/>
+				</label>
+				<label for="item-values" title="Show/Hide item values">
+					Item Values <input type="checkbox" id="item-values" checked="checked"/>
+				</label>
+				<label for="path" title="Show/Hide robot path">
+					Path <input type="checkbox" id="path" checked="checked"/>
+				</label>
+				<label for="fuel-bars" title="Show/Hide fuel bars">
+					Fuel Bars <input type="checkbox" id="fuel-bars" checked="checked"/>
+				</label>
+				</fieldset>
 			</div>
 		</div>
-		<div id="content">
-			<div class="code container_12">
-				<div class="instruction">
-					<strong>Step 1</strong>: Create 2 robots or pick samples
-				</div>
-				<div id="p1" class="grid_6">
-					<div class="header">
-						<span class="p1-text">Player 1</span>
-						<span class="message"></span>
-					</div>
-					<div id="editor1" class="editor"></div>
-					<div class="controls">
-						<select class="samples">
-							<option>Player 1</option>
-							<optgroup label="Samples">
-								<option>Lazy Bot</option>
-								<option>Random Bot</option>
-								<option>Bouncy Bot</option>
-								<option>Hungry Bot</option>
-							</optgroup>
-						</select>
-						<button type="button" class="save">Submit</button>
-					</div>
-				</div>
-				<div id="p2" class="grid_6">
-					<div class="right header">
-						<span class="message"></span>
-						<span class="p2-text">Player 2</span>
-					</div>
-					<div id="editor2" class="editor"></div>
-					<div class="controls">
-						<select class="samples">
-							<option>Player 2</option>
-							<optgroup label="Samples">
-								<option>Lazy Bot</option>
-								<option>Random Bot</option>
-								<option>Bouncy Bot</option>
-								<option>Hungry Bot</option>
-							</optgroup>
-						</select>
-						<button type="button" class="save">Submit</button>
-					</div>
-				</div>
+		<div class="span12">
+			<div id="canvas-div">
+				<canvas id="canvas" width="610" height="550"></canvas>
 			</div>
-			<div class="display container_12">
-				<div class="instruction">
-					<strong>Step 2</strong>: Watch robots in action
-				</div>
-				<div id="game-header">
-					<div id="results">
-						<div class="p1"></div>
-						<div class="center">
-							<span class="message"></span>
-						</div>
-						<div class="p2 right"></div>
-					</div>
-					<div id="players">
-						<div class="p1">
-							<img id="p1-img" src="images/robot1.png" alt = "robot1" />
-							<span class="p1-text ">Player 1</span>
-						</div>
-						<div class="vs center">vs</div>
-						<div class="p2 right">
-							<span class="p2-text">Player 2</span>
-							<img id = "p2-img" src = "images/robot2.png" alt = "robot2"/>
-						</div>
-					</div>
-					<div id="stats">
-						<div class="p1">
-							<div class="p1-text center">1000</div>
-						</div>
-						<div class="center">
-							<span id="timelabel">Time</span>
-							<div class="time center neutral-text">0</div>
-						</div>
-						<div class="p2 right">
-							<div class="p2-text center">1000</div>
-						</div>
-					</div>
-				</div>
-				<div id="canvas-div">
-					<canvas id="canvas" width="610" height="550"></canvas>
-				</div>
-				<div id="controls">
-					<button type="button" id="play" title="Play"></button>
-					<div id="seeker"></div>
-					<br>
-					<button type="button" id="swap" title="New match on same map with swapped starting positions">Swap</button>
-					<button type="button" id="rematch" title="New match on a new map">Rematch</button>
-					<button type="button" id="series" title="Play 10 matches and view results">10 Matches</button>
-					<div id="display-options">
-						<span class="label">Display</span>
-						<input type="checkbox" id="coords" checked="checked"/><label for="coords" title="Show/Hide robot coordinates">(x, y)</label>
-						<input type="checkbox" id="item-values" checked="checked"/><label for="item-values" title="Show/Hide item values">Item Values</label>
-						<input type="checkbox" id="path" checked="checked"/><label for="path" title="Show/Hide robot path">Path</label>
-						<input type="checkbox" id="fuel-bars" checked="checked"/><label for="fuel-bars" title="Show/Hide fuel bars">Fuel Bars</label>
-						&nbsp;&nbsp;&nbsp;<span class="label">Map</span>
-						&nbsp;<span>Fuel Tanks</span>
-						<select id="fuel-qty">
-							<option>0</option>
-							<option>10</option>
-							<option selected="selected">20</option>
-							<option>30</option>
-							<option>40</option>
-							<option>50</option>
-						</select>
-						&nbsp;<span>Mines</span>
-						<select id="mine-qty">
-							<option>0</option>
-							<option>20</option>
-							<option>40</option>
-							<option selected="selected">60</option>
-							<option>80</option>
-							<option>100</option>
-						</select>
-					</div>
-				</div>
+			<div id="controls">
+				<button type="button" id="play" title="Play"></button>
+				<div id="seeker"></div><br>
+				Fuel Tanks 
+				<select id="fuel-qty" class="mini">
+					<option>0</option>
+					<option>10</option>
+					<option selected="selected">20</option>
+					<option>30</option>
+					<option>40</option>
+					<option>50</option>
+				</select>
+				Mines 
+				<select id="mine-qty" class="mini">
+					<option>0</option>
+					<option>20</option>
+					<option>40</option>
+					<option selected="selected">60</option>
+					<option>80</option>
+					<option>100</option>
+				</select>&nbsp;
+				<button type="button" id="swap" title="New match on same map with swapped starting positions">Swap</button>
+				<button type="button" id="rematch" title="New match on a new map">Rematch</button>
+				<button type="button" id="series" title="Play 10 matches and view results">10 Matches</button>
 			</div>
 		</div>
-		<div id="footer" class="container_12">
-			<a href="https://github.com/mikeygee/RoboTag">RoboTag</a> - Mikey Gee - 2011
+		<div class="span2">
+			<img id="p2-img" src="images/robot2.png" alt = "robot2" />
+			<div class="p2-text center">1000</div>
 		</div>
-		<div id="images">
-			<img id = "fuel-img" src = "images/fuel20.png" alt = "fuel" />
-			<img id = "mine-img" src = "images/mine20.png" alt = "mine" />
-			<img id = "check" src = "images/check.png" alt = "check"/>
-			<img id = "x" src = "images/x.png" alt = "x" />
-			<img id = "p1-img40" src = "images/robot140.png" alt = "p1" />
-			<img id = "p2-img40" src = "images/robot240.png" alt = "p2" />
+	</div>
+	</div>
+	<div id="step3" class="step row">
+		<div class="span16">
+			<h2 class="page-header">Step 3 <small>Got something good? Submit your robot to compete in tournaments and see how you rank against other people.</small></h2>
+			<div id="step3-buttons">
+				<button class="btn p1">Submit Player 1</button>
+				<button class="btn p2">Submit Player 2</button><br>
+				<strong>Not implemented yet. Coming soon!</strong>
+			</div>
+			<p>This step is optional. It's possible to just play individual matches on this page, but most of the fun is in competing against other people. Once you've signed up and submitted a robot, we will run automated tournaments periodically and post the results. You'll be able to see your ranking and watch matches from the tournament. You are free to update and improve your robot any time. We haven't actually written many robots ourselves and are very curious to see what people come up with!</p>
 		</div>
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="js/underscore-min.js"></script>
-		<script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
-		<script type="text/javascript" src="js/ace.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/mode-javascript.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/theme-twilight.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/robotag.js" ></script>
-		<script type="text/x-jquery-tmpl" id="rt-error">
-			<div id="error-dialog" title="Run Time Error">
-				<br>
-				<span class="error">${message}</span>
-				<br><br>
-				<div class="p2-text">my</div>
-				(x, y) = (${p.my.x.toFixed(2)}, ${p.my.y.toFixed(2)}), fuel = ${p.my.fuel.toFixed(2)}
-				<br><br>
-				<div class="p2-text">enemy</div>
-				(x, y) = (${p.enemy.x.toFixed(2)}, ${p.enemy.y.toFixed(2)}), fuel = ${p.enemy.fuel.toFixed(2)}
-				<br><br>
-				<div class="p2-text">map.fuelTanks</div>
-				{{each fuelTanks}}
-					{ x: ${x}, y: ${y}, value: ${value} }<br>
-				{{/each}}
-				<br>
-				<div class="p2-text">map.mines</div>
-				{{each mines}}
-					{ x: ${x}, y: ${y}, value: ${value} }<br>
-				{{/each}}
-				<br>
-			</div>
-		</script>
-		<script type="text/x-jquery-tmpl" id="series-summary">
-			<div id="canvas-alt">
-				<h1 class="center">${n} Game Series</h1>
-				<table id="series-results">
-					<tr>
-						<td class="p1">${p1.wins}</td>
-						<td class="stat">Wins</td>
-						<td class="p2">${p2.wins}</td>
-					</tr>
-					<tr>
-						<td class="p1">${p1.losses}</td>
-						<td class="stat">Losses</td>
-						<td class="p2">${p2.losses}</td>
-					</tr>
-					<tr>
-						<td class="p1">${p1.ties}</td>
-						<td class="stat">Ties</td>
-						<td class="p2">${p2.ties}</td>
-					</tr>
-				</table>
-				<br><br>
-				<table id="series-stats">
-					<tr>
-						<td class="p1">${p1.margin.toFixed(1)} (${p1.avgMargin})</td>
-						<td class="stat"${p1.wins}>Fuel margin (Avg)</td>
-						<td class="p2">${p2.margin.toFixed(1)} (${p2.avgMargin})</td>
-					</tr>
-					<tr>
-						<td class="p1">${p1.tanks} (${p1.avgTanks})</td>
-						<td class="stat">Fuel tanks picked up (Avg)</td>
-						<td class="p2">${p2.tanks} (${p2.avgTanks})</td>
-					</tr>
-					<tr>
-						<td class="p1">${p1.mines} (${p1.avgMines})</td>
-						<td class="stat">Mines hit (Avg)</td>
-						<td class="p2">${p2.mines} (${p2.avgMines})</td>
-					</tr>
-					<tr>
-						<td class="p1">${turns} (${avgTurns})</td>
-						<td class="stat">Turns played (Avg)</td>
-						<td class="p2">${turns} (${avgTurns})</td>
-					</tr>
-					<tr>
-						<td class="p1">${p1.distance.toFixed(1)} (${p1.avgDistance})</td>
-						<td class="stat">Distance traveled (Avg per turn)</td>
-						<td class="p2">${p2.distance.toFixed(1)} (${p2.avgDistance})</td>
-					</tr>
-					<tr>
-						<td class="p1">${p1.fuel.toFixed(1)} (${p1.avgFuel})</td>
-						<td class="stat">Fuel burned (Avg per turn)</td>
-						<td class="p2">${p2.fuel.toFixed(1)} (${p2.avgFuel})</td>
-					</tr>
-				</table>
-			</div>
-		</script>
-		<script type="text/x-jquery-tmpl" id="series-error">
-			<div id="canvas-alt">
-				<h1 class="center error">Run Time Error</h1>
-				<span class="error">${message}</span>
-			</div>
-		</script>
-
-	</body>
+	</div>
+	<div id="footer" class="row">
+		<hr>
+		<a href="https://github.com/mikeygee/RoboTag">RoboTag</a> - by <a href="http://mikeygee.com">Mikey Gee</a> - 2011
+	</div>
+	<div id="images">
+		<img id = "fuel-img" src = "images/fuel20.png" alt = "fuel" />
+		<img id = "mine-img" src = "images/mine20.png" alt = "mine" />
+		<img id = "check" src = "images/check.png" alt = "check"/>
+		<img id = "x" src = "images/x.png" alt = "x" />
+		<img id = "p1-img40" src = "images/robot140.png" alt = "p1" />
+		<img id = "p2-img40" src = "images/robot240.png" alt = "p2" />
+	</div>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="js/ace.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/mode-javascript.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/theme-twilight.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/robotag.js" ></script>
+	<script type="text/x-jquery-tmpl" id="rt-error">
+		<div id="error-dialog" title="Run Time Error">
+			<br>
+			<span class="error">${message}</span>
+			<br><br>
+			<div class="p2-text">my</div>
+			(x, y) = (${p.my.x.toFixed(2)}, ${p.my.y.toFixed(2)}), fuel = ${p.my.fuel.toFixed(2)}
+			<br><br>
+			<div class="p2-text">enemy</div>
+			(x, y) = (${p.enemy.x.toFixed(2)}, ${p.enemy.y.toFixed(2)}), fuel = ${p.enemy.fuel.toFixed(2)}
+			<br><br>
+			<div class="p2-text">map.fuelTanks</div>
+			{{each fuelTanks}}
+				{ x: ${x}, y: ${y}, value: ${value} }<br>
+			{{/each}}
+			<br>
+			<div class="p2-text">map.mines</div>
+			{{each mines}}
+				{ x: ${x}, y: ${y}, value: ${value} }<br>
+			{{/each}}
+			<br>
+		</div>
+	</script>
+	<script type="text/x-jquery-tmpl" id="series-summary">
+		<div id="canvas-alt">
+			<h1 class="center">${n} Game Series</h1>
+			<table id="series-results">
+				<tr>
+					<td class="p1">${p1.wins}</td>
+					<td class="stat">Wins</td>
+					<td class="p2">${p2.wins}</td>
+				</tr>
+				<tr>
+					<td class="p1">${p1.losses}</td>
+					<td class="stat">Losses</td>
+					<td class="p2">${p2.losses}</td>
+				</tr>
+				<tr>
+					<td class="p1">${p1.ties}</td>
+					<td class="stat">Ties</td>
+					<td class="p2">${p2.ties}</td>
+				</tr>
+			</table>
+			<br><br>
+			<table id="series-stats">
+				<tr>
+					<td class="p1">${p1.margin.toFixed(1)} (${p1.avgMargin})</td>
+					<td class="stat"${p1.wins}>Fuel margin (Avg)</td>
+					<td class="p2">${p2.margin.toFixed(1)} (${p2.avgMargin})</td>
+				</tr>
+				<tr>
+					<td class="p1">${p1.tanks} (${p1.avgTanks})</td>
+					<td class="stat">Fuel tanks picked up (Avg)</td>
+					<td class="p2">${p2.tanks} (${p2.avgTanks})</td>
+				</tr>
+				<tr>
+					<td class="p1">${p1.mines} (${p1.avgMines})</td>
+					<td class="stat">Mines hit (Avg)</td>
+					<td class="p2">${p2.mines} (${p2.avgMines})</td>
+				</tr>
+				<tr>
+					<td class="p1">${turns} (${avgTurns})</td>
+					<td class="stat">Turns played (Avg)</td>
+					<td class="p2">${turns} (${avgTurns})</td>
+				</tr>
+				<tr>
+					<td class="p1">${p1.distance.toFixed(1)} (${p1.avgDistance})</td>
+					<td class="stat">Distance traveled (Avg per turn)</td>
+					<td class="p2">${p2.distance.toFixed(1)} (${p2.avgDistance})</td>
+				</tr>
+				<tr>
+					<td class="p1">${p1.fuel.toFixed(1)} (${p1.avgFuel})</td>
+					<td class="stat">Fuel burned (Avg per turn)</td>
+					<td class="p2">${p2.fuel.toFixed(1)} (${p2.avgFuel})</td>
+				</tr>
+			</table>
+		</div>
+	</script>
+	<script type="text/x-jquery-tmpl" id="series-error">
+		<div id="canvas-alt">
+			<h1 class="center error">Run Time Error</h1>
+			<span class="error">${message}</span>
+		</div>
+	</script>
+</div>
+</body>
 </html>

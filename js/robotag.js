@@ -482,31 +482,31 @@ RoboTag.Player = function(match) {
 			ctx.fillText(current.p2.f.toFixed(1), ctx.canvas.width - 0.5*fuelBarWidth, ctx.canvas.height - scaledHeight - 5);
 		}
 		// draw updates to header
-		$("#stats .p1-text").html(current.p1.f.toFixed(0));
-		$("#stats .p2-text").html(current.p2.f.toFixed(0));
-		$("#stats .time").html(this.cursor);
+		$(".display .p1-text").html(current.p1.f.toFixed(0));
+		$(".display .p2-text").html(current.p2.f.toFixed(0));
+		$(".names-time .time").html(this.cursor);
 		$("#seeker").slider("value", this.cursor);
 		if(this.cursor == log.length - 1) {
-			$("#results .p1, #results .p2, #results .message").empty();
+			$(".game-status .p1, .game-status .p2, .game-status .message").empty();
 			if(result.winner == "p1") {
-				$("#check").clone().appendTo("#results .p1");
-				$("#results .message").html(p1.my.name + " wins").addClass("p1-text").css("visibility","visible");
-				$("#x").clone().appendTo("#results .p2");
+				$("#check").clone().appendTo(".game-status .p1");
+				$(".game-status .message").html(p1.my.name + " wins").addClass("p1-text").css("visibility","visible");
+				$("#x").clone().appendTo(".game-status .p2");
 			}
 			else if(result.winner == "p2") {
-				$("#check").clone().appendTo("#results .p2");
-				$("#results .message").html(p2.my.name + " wins").addClass("p2-text").css("visibility","visible");
-				$("#x").clone().appendTo("#results .p1");
+				$("#check").clone().appendTo(".game-status .p2");
+				$(".game-status .message").html(p2.my.name + " wins").addClass("p2-text").css("visibility","visible");
+				$("#x").clone().appendTo(".game-status .p1");
 			}
 			else {
-				$("#x").clone().appendTo("#results .p2");
-				$("#results .message").html("Tie").addClass("neutral-text").css("visibility","visible");
-				$("#x").clone().appendTo("#results .p1");
+				$("#x").clone().appendTo(".game-status .p2");
+				$(".game-status .message").html("Tie").addClass("neutral-text").css("visibility","visible");
+				$("#x").clone().appendTo(".game-status .p1");
 			}	
 		}	
-		else if($("results .message").html() != "") {
-			$("#results .p1, #results .p2, #results .message").empty();
-			$("#results .message").removeClass("neutral-text p1-text p2-text").css("visibility","hidden");
+		else if($(".game-status .message").html() != "") {
+			$(".game-status .p1, .game-status .p2, .game-status .message").empty();
+			$(".game-status .message").removeClass("neutral-text p1-text p2-text").css("visibility","hidden");
 		}
 
 		return true;
@@ -563,18 +563,18 @@ RoboTag.demo = function() {
 	var JavaScriptMode = require("ace/mode/javascript").Mode;
 	editor1.getSession().setMode(new JavaScriptMode());
 	editor1.getSession().on("change", function() {
-		if($("#p1 .save").button("option", "disabled"))
-			$("#p1 .save").button("enable");
-			$("#p1 .message").empty().css("visibility","hidden");
+		if($(".p1 .save").button("option", "disabled"))
+			$(".p1 .save").button("enable");
+			$(".code-header .p1 .message").empty().css("visibility","hidden");
 	});
 
 	var editor2 = RoboTag.editor2 = ace.edit("editor2");
 	editor2.getSession().setMode(new JavaScriptMode());
 	editor2.setTheme("ace/theme/twilight");
 	editor2.getSession().on("change", function() {
-		if($("#p2 .save").button("option", "disabled"))
-			$("#p2 .save").button("enable");
-			$("#p2 .message").empty().css("visibility","hidden");
+		if($(".p2 .save").button("option", "disabled"))
+			$(".p2 .save").button("enable");
+			$(".code-header .p2 .message").empty().css("visibility","hidden");
 	});
 
 	var customFn1 = "// write your function\n// confused? try a sample from the drop down\nfunction move(my, enemy, map) {\n\t\n}";
@@ -649,10 +649,10 @@ RoboTag.demo = function() {
 		$("#controls button").button("disable");
 		$("#seeker").slider("disable");
 		$("#display-options input").attr("disabled","disabled");
-		$("#results .p1, #results .p2, #results .message").empty();
-		$("#results .message").removeClass("neutral-text p1-text p2-text").css("visibility","hidden");
-		$("#stats .p1-text, #stats .p2-text").html(1000);
-		$("#stats .time").html(0);
+		$(".game-status .p1, .game-status .p2, .game-status .message").empty();
+		$(".game-status .message").removeClass("neutral-text p1-text p2-text").css("visibility","hidden");
+		$(".display .p1-text, .display .p2-text").html(1000);
+		$(".names-time .time").html(0);
 		$("#canvas-alt").remove();
 	}
 
@@ -663,8 +663,8 @@ RoboTag.demo = function() {
 		else {
 			var fn1 = editor1.getSession().getValue(), fn2 = editor2.getSession().getValue();
 			map = new RoboTag.Map({random: true, settings: {fuelQty: parseInt($("#fuel-qty").val()), mineQty: parseInt($("#mine-qty").val())}});
-			p1 = new RoboTag.Robot({my: {id: 1, name: $("#p1 .p1-text").html(), x: map.settings.startPositions[0].x, y: map.settings.startPositions[0].y}, enemy: {x: map.settings.startPositions[1].x, y: map.settings.startPositions[1].y, fuel: 1000}, map: clone(map.data), move: "(function() " + fn1.substr(fn1.indexOf("{")) + ")"});
-			p2 = new RoboTag.Robot({my: {id: 2, name: $("#p2 .p2-text").html(), x: map.settings.startPositions[1].x, y: map.settings.startPositions[1].y}, enemy: {x: map.settings.startPositions[0].x, y: map.settings.startPositions[0].y}, map: clone(map.data), move: "(function() " + fn2.substr(fn2.indexOf("{")) + ")"});
+			p1 = new RoboTag.Robot({my: {id: 1, name: $(".code-header .p1-text").html(), x: map.settings.startPositions[0].x, y: map.settings.startPositions[0].y}, enemy: {x: map.settings.startPositions[1].x, y: map.settings.startPositions[1].y, fuel: 1000}, map: clone(map.data), move: "(function() " + fn1.substr(fn1.indexOf("{")) + ")"});
+			p2 = new RoboTag.Robot({my: {id: 2, name: $(".code-header .p2-text").html(), x: map.settings.startPositions[1].x, y: map.settings.startPositions[1].y}, enemy: {x: map.settings.startPositions[0].x, y: map.settings.startPositions[0].y}, map: clone(map.data), move: "(function() " + fn2.substr(fn2.indexOf("{")) + ")"});
 			match = RoboTag.match = new RoboTag.Match({data: {p1: p1, p2: p2, map: map}});
 		}
 		var matchData = RoboTag.matchData = match.run();
@@ -672,8 +672,8 @@ RoboTag.demo = function() {
 			$(".ui-dialog").remove();
 			var p = (p1.status == "error") ? p1 : p2;
 			var errorDetails = RoboTag.errorDetails = $("#rt-error").tmpl({message: matchData.result.error.message, p: p, fuelTanks: _.map(p.map.fuelTanks, function(el) {return {x: el.x.toFixed(2), y: el.y.toFixed(2), value: el.value};}), mines: _.map(p.map.mines, function(el) {return {x: el.x.toFixed(2), y: el.y.toFixed(2), value: el.value};})}).dialog({autoOpen: false, width: 480});
-			$(((p1.status == "error") ? "#p1" : "#p2") + " .message").empty()
-				.html("Run time error. Click for details.")
+			$(((p1.status == "error") ? ".code-header .p1" : ".code-header .p2") + " .message").empty()
+				.html("RUN TIME ERROR. Click for details.")
 				.removeClass("success")
 				.addClass("error")
 				.css({visibility: "visible", cursor: "pointer"})
@@ -689,8 +689,9 @@ RoboTag.demo = function() {
 			$("#display-options input").removeAttr("disabled");
 			$("#seeker").slider("option", { min: 0, max: matchData.log.length - 1, disabled: false });
 			player.drawFrame();
-			$("#results .message").html("Press Play to start").addClass("neutral-text").css("visibility","visible");
-			$("html,body").animate({scrollTop: $(".display").offset().top - 25}, 500);
+			$(".game-status .message").html("Press Play below to start").addClass("neutral-text").css("visibility","visible");
+			$(".game-status .p1, .game-status .p2").html("&nbsp;");
+			$("html,body").animate({scrollTop: $("#step2").offset().top - 45}, 500);
 			$("#canvas-alt").remove();
 		}
 		return matchData;
@@ -775,22 +776,22 @@ RoboTag.demo = function() {
 			// display the stats over the canvas
 			ctx.clearRect(0,0,610,550);
 			ctx.strokeRect(40, 10, 530, 539);
-			$("#results .p1, #results .p2, #results .message").empty();
-			$("#results .message").removeClass("neutral-text p1-text p2-text").css("visibility","hidden");
+			$(".game-status .p1, .game-status .p2, .game-status .message").empty();
+			$(".game-status .message").removeClass("neutral-text p1-text p2-text").css("visibility","hidden");
 			if(p1stats.wins > p2stats.wins) {
-				$("#check").clone().appendTo("#results .p1");
-				$("#results .message").html(p1.my.name + " wins").addClass("p1-text").css("visibility","visible");
-				$("#x").clone().appendTo("#results .p2");
+				$("#check").clone().appendTo(".game-status .p1");
+				$(".game-status .message").html(p1.my.name + " wins").addClass("p1-text").css("visibility","visible");
+				$("#x").clone().appendTo(".game-status .p2");
 			}
 			else if(p2stats.wins > p1stats.wins) {
-				$("#check").clone().appendTo("#results .p2");
-				$("#results .message").html(p2.my.name + " wins").addClass("p2-text").css("visibility","visible");
-				$("#x").clone().appendTo("#results .p1");
+				$("#check").clone().appendTo(".game-status .p2");
+				$(".game-status .message").html(p2.my.name + " wins").addClass("p2-text").css("visibility","visible");
+				$("#x").clone().appendTo(".game-status .p1");
 			}
 			else {
-				$("#x").clone().appendTo("#results .p2");
-				$("#results .message").html("Tie").addClass("neutral-text").css("visibility","visible");
-				$("#x").clone().appendTo("#results .p1");
+				$("#x").clone().appendTo(".game-status .p2");
+				$(".game-status .message").html("Tie").addClass("neutral-text").css("visibility","visible");
+				$("#x").clone().appendTo(".game-status .p1");
 			}	
 			$("#play").button("disable");
 			$("#seeker").slider("disable");
@@ -801,7 +802,7 @@ RoboTag.demo = function() {
 
 	// set a robot's move function, check for syntax errors
 	function save(robot, fn) {
-		var divId = "#p" + robot.my.id;
+		var divId = ".p" + robot.my.id;
 		// Note to self: Chrome/Safari require anonymous functions to be in parentheses when using eval
 		robot.set({move: "(function() " + fn.substr(fn.indexOf("{")) + ")"});
 		if(robot.status == "ready") {
@@ -838,36 +839,35 @@ RoboTag.demo = function() {
 	};
 
 
-	$("#p1 select").change(function() {
+	$(".p1 select").change(function() {
 		resetDisplay();
-		var name = $("#p1 option:selected").html();
-		$("#p1 .p1-text, #players .p1-text").html(name);
+		var name = $(".p1 option:selected").html();
+		$(".p1 .p1-text, .names-time .p1-text").html(name);
 		if(name == "Player 1") {
 			p1.status = "initial";
 			editor1.getSession().setValue(customFn1);
 			editor1.setReadOnly(false);
-			$("#p1 .save").button("enable");
-			$("#p1 .message").empty().css("visibility","hidden");
+			$(".p1 .save").button("enable");
+			$(".p1 .message").empty().css("visibility","hidden");
 		}
 		else {
 			var fn = sampleBots[name];
 			editor1.getSession().setValue(fn);
-			$("#editor1").scrollLeft(0).scrollTop(0);
 			editor1.setReadOnly(true);
 			save(p1, fn);
 		}	
 	});
 			
-	$("#p2 select").change(function() {
+	$(".p2 select").change(function() {
 		resetDisplay();
-		var name = $("#p2 option:selected").html();
-		$("#p2 .p2-text, #players .p2-text").html(name);
+		var name = $(".p2 option:selected").html();
+		$(".p2 .p2-text, .names-time .p2-text").html(name);
 		if(name == "Player 2") {
 			p2.status = "initial";
 			editor2.getSession().setValue(customFn2);
 			editor2.setReadOnly(false);
-			$("#p2 .save").button("enable");
-			$("#p2 .message").empty().css("visibility","hidden");
+			$(".p2 .save").button("enable");
+			$(".p2 .message").empty().css("visibility","hidden");
 		}
 		else {
 			var fn = sampleBots[name];
@@ -877,12 +877,12 @@ RoboTag.demo = function() {
 		}	
 	});
 	
-	$("#p1 .save").button().click(function() {
+	$(".p1 .save").button().click(function() {
 		customFn1 = editor1.getSession().getValue();
 		save(p1, customFn1);		
 	});
 
-	$("#p2 .save").button().click(function() {
+	$(".p2 .save").button().click(function() {
 		customFn2 = editor2.getSession().getValue();
 		save(p2, customFn2);		
 			
