@@ -563,8 +563,8 @@ RoboTag.demo = function() {
 	var JavaScriptMode = require("ace/mode/javascript").Mode;
 	editor1.getSession().setMode(new JavaScriptMode());
 	editor1.getSession().on("change", function() {
-		if($(".p1 .save").button("option", "disabled"))
-			$(".p1 .save").button("enable");
+		if($(".p1 .save").attr("disabled"))
+			$(".p1 .save").removeAttr("disabled");
 			$(".code-header .p1 .message").empty().css("visibility","hidden");
 	});
 
@@ -572,8 +572,8 @@ RoboTag.demo = function() {
 	editor2.getSession().setMode(new JavaScriptMode());
 	editor2.setTheme("ace/theme/twilight");
 	editor2.getSession().on("change", function() {
-		if($(".p2 .save").button("option", "disabled"))
-			$(".p2 .save").button("enable");
+		if($(".p2 .save").attr("disabled"))
+			$(".p2 .save").removeAttr("disabled");
 			$(".code-header .p2 .message").empty().css("visibility","hidden");
 	});
 
@@ -581,8 +581,8 @@ RoboTag.demo = function() {
 	var customFn2 = customFn1;
 	editor1.getSession().setValue(customFn1);
 	editor2.getSession().setValue(customFn2);
-	editor1.env.editor.renderer.setShowGutter(false);
-	editor2.env.editor.renderer.setShowGutter(false);
+	//editor1.env.editor.renderer.setShowGutter(false);
+	//editor2.env.editor.renderer.setShowGutter(false);
 
 	var ctx = document.getElementById("canvas").getContext('2d');
 	ctx.strokeRect(40, 10, 530, 539);
@@ -669,16 +669,17 @@ RoboTag.demo = function() {
 		}
 		var matchData = RoboTag.matchData = match.run();
 		if(match.status == "error") {
-			$(".ui-dialog").remove();
+			//$(".ui-dialog").remove();
+			$(".modal").remove();
 			var p = (p1.status == "error") ? p1 : p2;
-			var errorDetails = RoboTag.errorDetails = $("#rt-error").tmpl({message: matchData.result.error.message, p: p, fuelTanks: _.map(p.map.fuelTanks, function(el) {return {x: el.x.toFixed(2), y: el.y.toFixed(2), value: el.value};}), mines: _.map(p.map.mines, function(el) {return {x: el.x.toFixed(2), y: el.y.toFixed(2), value: el.value};})}).dialog({autoOpen: false, width: 480});
+			var errorDetails = RoboTag.errorDetails = $("#rt-error").tmpl({message: matchData.result.error.message, p: p, fuelTanks: _.map(p.map.fuelTanks, function(el) {return {x: el.x.toFixed(2), y: el.y.toFixed(2), value: el.value};}), mines: _.map(p.map.mines, function(el) {return {x: el.x.toFixed(2), y: el.y.toFixed(2), value: el.value};})}).modal({backdrop: true});//.dialog({autoOpen: false, width: 480});
 			$(((p1.status == "error") ? ".code-header .p1" : ".code-header .p2") + " .message").empty()
 				.html("RUN TIME ERROR. Click for details.")
 				.removeClass("success")
 				.addClass("error")
 				.css({visibility: "visible", cursor: "pointer"})
 				.click(function() {
-					errorDetails.dialog("open");
+					errorDetails.modal('show');//dialog("open");
 				});
 			resetDisplay();
 		}
@@ -812,7 +813,7 @@ RoboTag.demo = function() {
 				.addClass("success")
 				.css({visibility: "visible", cursor: "default"})
 				.unbind("click");
-			$(divId + " .save").button("disable");
+			$(divId + " .save").attr("disabled","disabled");
 		}
 		else {
 			$(divId + " .message").empty()
@@ -834,7 +835,7 @@ RoboTag.demo = function() {
 	var sampleBots = {
 		"Lazy Bot": "// never move\nfunction move(my, enemy, map) {\n\treturn {dx: 0, dy: 0};\n}",
 		"Random Bot": "// move randomly within the allowed limits\nfunction move(my, enemy, map) {\n\treturn {dx: Math.random()*6 - 3, dy: Math.random()*6 - 3};\n}",
-		"Bouncy Bot": "// move at constant speed and bounce off walls\n// example of storing persistent variables\nfunction move(my, enemy, map) {\n\tif(typeof(my.dx) == \"undefined\")\n\t\tmy.dx = 1;\n\tif(typeof(my.dy) == \"undefined\")\n\t\tmy.dy = -2;\n\tif(my.x == 100 || my.x == 0)\n\t\tmy.dx *= -1;\n\tif(my.y == 100 || my.y == 0)\n\t\tmy.dy *= -1;\n\treturn {dx: my.dx, dy: my.dy};\n}",
+		"Bouncy Bot": "// move at constant speed and bounce off walls\n// example of storing persistent variables\nfunction move(my, enemy, map) {\n\tif(typeof(my.dx) == \"undefined\") {\n\t\tmy.dx = 1;\n\t\tmy.dy = -2;\n\t}\n\tif(my.x == 100 || my.x == 0)\n\t\tmy.dx *= -1;\n\tif(my.y == 100 || my.y == 0)\n\t\tmy.dy *= -1;\n\treturn {dx: my.dx, dy: my.dy};\n}",
 		"Hungry Bot": "// go to closest fuel tank\n// when all tanks are gone, go to enemy\nfunction move(my, enemy, map) {\n\tvar closestFuelTank = false;\n\tvar minDistance=1000;\n\tvar dx, dy, d, myMove = {};\n\tfor(i=0, len=map.fuelTanks.length; i < len; i++) {\n\t\tdx = my.x - map.fuelTanks[i].x;\n\t\tdy = my.y - map.fuelTanks[i].y;\n\t\td = Math.sqrt(dx*dx + dy*dy);\n\t\tif(d < minDistance) {\n\t\t\tminDistance = d;\n\t\t\tclosestFuelTank = map.fuelTanks[i];\n\t\t}\n\t}\n\n\tif(closestFuelTank) {\n\t\tdx = closestFuelTank.x - my.x;\n\t\tdy = closestFuelTank.y - my.y;\n\t\tif(Math.abs(dx) > Math.abs(dy)) {\n\t\t\tmyMove.dx = 2*(Math.abs(dx)/dx);\n\t\t\tmyMove.dy = (2/(Math.abs(dx)))*dy;\n\t\t}\n\t\telse {\n\t\t\tmyMove.dy = 2*(Math.abs(dy)/dy);\n\t\t\tmyMove.dx = (2/(Math.abs(dy)))*dx;\n\t\t}\n\t}\n\telse {\n\t\tdx = enemy.x - my.x;\n\t\tdy = enemy.y - my.y;\n\t\tif(Math.abs(dx) > Math.abs(dy)) {\n\t\t\tmyMove.dx = 3*(Math.abs(dx)/dx);\n\t\t\tmyMove.dy = (3/(Math.abs(dx)))*dy;\n\t\t}\n\t\telse {\n\t\t\tmyMove.dy = 3*(Math.abs(dy)/dy);\n\t\t\tmyMove.dx = (3/(Math.abs(dy)))*dx;\n\t\t}\n\t}\n\n\treturn myMove;\n}"
 	};
 
@@ -847,7 +848,7 @@ RoboTag.demo = function() {
 			p1.status = "initial";
 			editor1.getSession().setValue(customFn1);
 			editor1.setReadOnly(false);
-			$(".p1 .save").button("enable");
+			$(".p1 .save").removeAttr("disabled");
 			$(".p1 .message").empty().css("visibility","hidden");
 		}
 		else {
@@ -866,7 +867,7 @@ RoboTag.demo = function() {
 			p2.status = "initial";
 			editor2.getSession().setValue(customFn2);
 			editor2.setReadOnly(false);
-			$(".p2 .save").button("enable");
+			$(".p2 .save").removeAttr("disabled");
 			$(".p2 .message").empty().css("visibility","hidden");
 		}
 		else {
@@ -877,12 +878,12 @@ RoboTag.demo = function() {
 		}	
 	});
 	
-	$(".p1 .save").button().click(function() {
+	$(".p1 .save").click(function() {
 		customFn1 = editor1.getSession().getValue();
 		save(p1, customFn1);		
 	});
 
-	$(".p2 .save").button().click(function() {
+	$(".p2 .save").click(function() {
 		customFn2 = editor2.getSession().getValue();
 		save(p2, customFn2);		
 			

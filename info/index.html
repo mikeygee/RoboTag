@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name="description" content="Javascript, programming, game, AI"/>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="/css/style.css"/>
+	<title>RoboTag | How it works</title>
+</head>
+<body>
+
+<div class="topbar">
+	<div class="topbar-inner">
+	<div class="container">
+		<h3><a href="/"><img id="logo" src="/images/logo_small.png"/></a></h3>
+		<ul>
+			<li><a href="/info">How It Works</a></li>
+			<li><a href="/play">Play Now</a></li>
+		</ul>
+		<ul class="nav secondary-nav">
+			<li><a href="#">Login</a></li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="how-it-works">
+<div class="container">
+	<h2>How It Works <small>everything you need to know to start playing RoboTag</small></h2>
+	<ul class="tabs" data-tabs="tabs">
+		<li class="active"><a href="#rules">Rules</a></li>
+		<li><a href="#start">Getting Started</a></li>
+		<li><a href="#faq">FAQ</a></li>
+		<li><a href="#about">About</a></li>
+	</ul>
+<div class="tab-content">
+	<div id="rules" class="active">
+		<h2>Game Rules</h2>
+		<h3>Summary</h3>
+		<p>The game begins with two robots placed on opposite corners of a <strong>100 x 100</strong> square arena. Each robot begins with <strong>1000</strong> units of fuel. Fuel is required to move your robot. Scattered throughout the arena are fuel tanks and mines. Picking up a fuel tank adds to your fuel, while hitting a mine subtracts from it. The object of the game is to tag your opponent when you have more fuel.</p>
+		<h3>Basic rules</h3>
+		<ul>
+			<li>The game has a maximum of <strong>1000</strong> turns. On each turn, both robots are required to submit a move.</li>
+			<li>The strategy of your robot is implemented in a Javascript function named <code>move</code>. This function is called once per turn, and must return an object with two values <code>dx</code> and <code>dy</code>, describing your move in the horizontal and vertical direction respectively. There are 3 parameters given to your function that will help you decide where to move. These are described in the next section.</li>
+			<li>Moves are limited to <strong>3</strong> units in each direction. Positive dx/dy values move right/up. Negative dx/dy values move left/down. The lower left corner of the arena maps to (x,y) = (0,0). The upper right corner is (x,y) = (100,100).</li>
+			<li>The amount of fuel used in each move = <strong>dx<sup>2</sup> + dy<sup>2</sup> + 2</strong></li>
+			<li>A robot can hold a maximum of <strong>1500</strong> units of fuel.</li>
+			<li>A tag occurs when the robots are located within <strong>5</strong> units of distance of each other. The game ends, and the robot with more fuel wins. If the robots have the same amount of fuel, the game is ruled a tie.</li>
+			<li>A fuel tank is picked up, or a mine hit, when a robot is within <strong>2</strong> units of distance of the item.</li>
+			<li>Reminder: Distance formula &rarr; d = sqrt[(x<sub>1</sub> - x<sub>2</sub>)<sup>2</sup> + (y<sub>1</sub> - y<sub>2</sub>)<sup>2</sup>]</li>
+			<li>If time expires (1000 turns without a tag) or both robots run out of fuel, the game ends and is ruled a tie.</li>
+		</ul>
+		<h3>Function parameters</h3>
+		<p>There are 3 parameters provided to your function that represent the state of the game on any given turn. </p>
+		<p><pre>function move(my, enemy, map) {<br>   ...<br>   return {dx: yourMove.x, dy: yourMove.y};<br>}</pre></p>
+		<ol>
+			<li><code>my</code> - your robot
+			<ul><li><code>x</code>: the horizontal coordinate of your current position</li>
+			<li><code>y</code>: the vertical coordinate of your current position</li>
+			<li><code>fuel</code>: your current fuel amount</li></ul></li>
+			<li><code>enemy</code> - your opponent
+			<ul><li><code>x</code>: the horizontal coordinate of your opponent's current position</li>
+			<li><code>y</code>: the vertical coordinate of your opponent's current position</li>
+			<li><code>fuel</code>: your opponent's current fuel amount</li></ul></li>
+			<li><code>map</code> - contains the locations and values of untaken fuel tanks and mines
+			<ul><li><code>fuelTanks</code>: an array of fuel tank objects. Each fuel tank has the following properties:
+			<ul><li><code>x</code>: the horizontal coordinate of the fuel tank's location</li>
+			<li><code>y</code>: the vertical coordinate of the fuel tank's location</li>
+			<li><code>value</code>: the amount of fuel added if picked up </li></ul></li>
+			<li><code>mines</code>: an array of mine objects. Each mine object has the following properties:
+			<ul><li><code>x</code>: the horizontal coordinate of the mine's location</li>
+			<li><code>y</code>: the vertical coordinate of the mine's location</li>
+			<li><code>value</code>: the amount of fuel subtracted if hit</li></ul></li></ul></li>
+		</ol>
+		<h3>Other details</h3>
+		<ul>
+			<li>The general flow of the game is as follows:
+			<ol><li>Call each robot's <code>move</code> function</li>
+			<li>Move both robots and subtract fuel</li>
+			<li>Check for a tag. If yes, game is over.</li>
+			<li>Check for fuel tank pickups and mine hits and update fuel totals.</li>
+			<li>Check if time is expired (1000 turns) or if both robots are out of fuel. If yes, game is over.</li>
+			<li>Repeat</li></ol></li>
+			<li>Note that both robots are moved before checking for a tag, and a tag takes precedence over a fuel pickup if both occur on the same turn.</li>
+			<li>If a robot tries to move past a wall, it will still lose fuel according to the returned move, but remain positioned at the border of the arena.</li>
+			<li>If your function does not return the expected <code>dx</code> and <code>dy</code> with numeric values between -3 and 3, or if any run time errors occur when calling your function, the match will end with no winner. The error message will be saved for reference.</li>
+		</ul>
+	</div>
+	<div id="start">
+		<h2>Getting started</h2>
+		<p>RoboTag is easy to try without any kind of sign up or commitment. Individual matches can be run on the <a href="/play">game page</a>. A browser with Canvas support and Javascript is required. I have done basic testing in the latest versions of Firefox, Chrome, Safari, Opera, and IE9.</p>
+		<p>Link to game page: <a href="/play">http://mikeygee.github.com/RoboTag/play</a> or "Play Now" link above</p>
+		<p>The game page consists of two text editors for submitting each robot's <code>move</code> function, and a canvas for viewing matches.</p>
+		<p>The easiest way to get started is to pick two sample robots and watch a match. The samples are meant to demonstrate how the function return value translates to movement. Hungry Bot is the most interesting sample, and a good example of a basic strategy. Once you have a feel for how the game works and how the strategy is implemented in the function, try writing your own function. It can be challenging to think of and implement a good strategy, so start simple and incrementally improve on your strategy. We actually haven't written many robots ourselves and are curious to see what people come up with!</p>
+		<h3>Step 1: Code</h3>
+		<p>For each of the two required robots, you have the choice of writing your own <code>move</code> function, or choosing a sample from the drop down selector. You can use your preferred text editor and copy/paste your function. Sample robots cannot be modified and are automatically submitted when selected. If there are any errors detected when submitting your function, a notice will appear above the text editor.</p>
+		<h3>Step 2: Watch</h3>
+		<p>As soon as two valid robots are submitted, the view will shift to the canvas where you can watch a match between the two robots. Press the play button located underneath the canvas to start playback of the match. You can also use the slider control to browse turn by turn.</p> 
+		<p>You can run additional matches using the buttons beneath the playback controls. <strong>Swap</strong> will run a match on the same map with starting positions swapped. <strong>Rematch</strong> will run a new match with a new map. <strong>Play 10 matches</strong> will silently play 10 matches (5 maps, 2 matches each from both start configurations) and provide summarized results. At any time, you can modify code or choose another sample bot in the code section.</p>
+		<p>You can modify the quantity of fuel tanks and mines using the drop down selectors underneath the canvas (effective for next match). You can show/hide various visual elements using the display menu on the lower left.</p>
+		<h3>Step 3: Compete (not implemented yet, coming soon)</h3>
+		<p>You will probably get tired of playing against yourself or the silly samples pretty quickly. Most of the fun in RoboTag is competing against other robots. Once you have a working robot that you are happy with,  sign up and submit your robot to compete in tournaments. We will periodically run automated tournaments with all submitted robots and post the results.
+	</div>
+	<div id="faq">
+		<h2>FAQ</h2>
+		<p><strong>Q: How do I move my robot?</strong> <br>
+		A: The return value of your function determines your move. It is passed back to the game code, which will update your position for you. For example, a return value of {dx: 2, dy: 1} would move your robot 2 units to the right and 1 unit up from your current position.</p>
+		<p><strong>Q: How do I pick up a fuel tank?</strong><br>
+		A: Move to within 2 units of distance of the fuel tank. Fuel tanks are automatically picked up when you move next to them. If you do not want to pick up the tank on a given turn, stay more than 2 units away. The only robot action possible in the context of the game is moving.</p>
+		<p><strong>Q: How can I save variables across turns?</strong><br>
+		A: The function parameters only give a current snapshot, meaning your robot is memoryless by default. However, you may save additional variables as members of the parameter objects, and they will persist across turns. For example, if you wanted to know how many turns have been played, you could do something like <code>my.turn = (typeof(my.turn) == "undefined") ? 0 : ++my.turn;</code>. Or if you wanted to keep a history of your enemy's location, <pre>if(typeof(enemy.history) == "undefined")<br>   enemy.history = [];<br>else<br>   enemy.history.push({x: enemy.x, y: enemy.y});</pre></p>
+		<p><strong>Q: How can I debug my function?</strong><br>
+		A: The <a href="/play">game page</a> is all client-side Javascript. Run time error messages and function parameters at time of error can be seen by clicking the red error notification. <a href="http://getfirebug.com">Firebug</a> on Firefox and <a href="http://code.google.com/chrome/devtools/docs/scripts">Chrome Developer Tools</a> have good Javascript debuggers. Before submitting your robot, set a breakpoint in the robotag.js file when <code>p1.move()</code> and/or <code>p2.move()</code> are called (currently lines 252 and 263). Then you can step through your code, and set up additional breakpoints.</p>
+		<p><strong>Q: Are there any limits on the size of the <code>move</code> function?</strong><br>
+		A: You can use as many variables and sub functions as you need, but the run time will need to be reasonable, otherwise the browser will hang.</p>
+	</div>
+	<div id="about">
+		<h2>About</h2>
+		<p>The idea for this project came from a friend who teaches a programming course at UC Berkeley. He used this game for a class project, and it was very popular with students. I decided to make a web based version of the game as a personal exercise in web development, and also to make it more accessible to people that may enjoy it.</p>
+		<p>The problem with many programming assignments is that they are either boring with the end result being some text printed to a console, or they involve complex theoretical problems that few people have interest in. Likewise with programming competitions, they are often too difficult for less advanced programmers or have other barriers to entry. We believe that this game addresses some of these issues. The game is a simple, open ended problem that allows competitors to be creative in designing and implementing a strategy, and the entire strategy is contained in a standard function. With Javascript, everything is done right in the browser, and you get immediate visual feedback, as the strategy comes to life on the screen. It works well as a class project, a programming competition, or just a friendly game between coders. </p>
+		<p>All the code for RoboTag is posted on <a href="https://github.com/mikeygee/RoboTag" target="_blank">github</a>. This has been a great learning experience for me, and I hope others can benefit from it as well. Contact me on github if you have any questions or comments.</p>
+	</div>
+</div>
+</div>
+
+</div>
+
+<div id="footer">
+	<div class="container">
+	<div class="row">
+		<div class="span16">
+		&copy; 2011 RoboTag - by <a href="http://mikeygee.com" target="_blank">Mikey Gee </a>
+		</div>
+	</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-tabs.js"></script>
+</body>
+</html>

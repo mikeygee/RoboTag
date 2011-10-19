@@ -1,21 +1,29 @@
-body {
-	font-size: 14px;
-}
-
-#header {
-	margin-top: 20px;
-}
-
-#logo {
-	padding: 8px 16px;
-	background-color: #555;
-	border-radius: 5px;
-}
-
 a:link, a:visited { text-decoration: none; }
 a:hover {text-decoration: underline; }
 a:active {text-decoration: underline; }
 a img { border: none; }
+
+.topbar-inner  {
+	  background-color:#555;
+	  background-color:#555555;
+	  background-repeat:repeat-x;
+	  background-image:-khtml-gradient(linear, left top, left bottom, from(#555555), to(#444444));
+	  background-image:-moz-linear-gradient(top, #555555, #444444);
+	  background-image:-ms-linear-gradient(top, #555555, #444444);
+	  background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #555555), color-stop(100%, #444444));
+	  background-image:-webkit-linear-gradient(top, #555555, #444444);
+	  background-image:-o-linear-gradient(top, #555555, #444444);
+	  background-image:linear-gradient(top, #555555, #444444);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#444444', GradientType=0);-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1);-moz-box-shadow:0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1);box-shadow:0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.topbar h3 a {
+	padding: 4px 20px 0px;
+}
+
+#game-page {
+	margin-top: 40px; 
+	font-size: 14px;
+}
 
 .step {
 	margin-top: 20px;
@@ -173,7 +181,14 @@ select { color: #404040; }
 #display-options label { width: 120px; }
 
 #error-dialog {
-	font-size: 14px;
+	font-size: 13px;
+	height: 400px;
+	overflow: scroll;
+}
+
+#error-dialog pre {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
 }
 
 .display #canvas-div {
@@ -266,7 +281,11 @@ select { color: #404040; }
 }
 
 #footer {
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 	text-align: center;
+}
+
+#footer .container { 
+	border-top: 1px solid #DDD;
+	padding-top: 10px;	
 }
