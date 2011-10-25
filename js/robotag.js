@@ -803,6 +803,8 @@ RoboTag.demo = function() {
 
 	// set a robot's move function, check for syntax errors
 	function save(robot, fn) {
+		if(typeof(player) != "undefined")
+			player.pause();
 		var divId = ".p" + robot.my.id;
 		// Note to self: Chrome/Safari require anonymous functions to be in parentheses when using eval
 		robot.set({move: "(function() " + fn.substr(fn.indexOf("{")) + ")"});
