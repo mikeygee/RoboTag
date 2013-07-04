@@ -217,7 +217,7 @@ RoboTag.CanvasPlayer = function(options) {
 
 	// load image for canvas, then draw the initial player
 	this.sprite = document.createElement('img');
-	this.sprite.src = '/images/sprite.png';
+	this.sprite.src = './images/sprite.png';
 	this.sprite.onload = function() {
 		self.drawRobots();
 		self.drawItems();
