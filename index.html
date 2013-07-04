@@ -1,102 +1,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-	<meta name="description" content="Javascript, programming, game, AI"/>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link type="text/css" rel="stylesheet" href="css/style.css"/>
 	<title>RoboTag</title>
+	<link rel="stylesheet" href="/stylesheets/style.css">
+	<link rel="stylesheet" href="/images/icomoon/style.css">
 </head>
 <body>
+	<noscript>
+		<div id="rt-noscript">
+			<div class="noscript-wrapper">
+				<div class="noscript-img-wrapper">
+					<div class="img-logo"></div>
+				</div>
+				<div id="noscript-message">
+					<h2>Unsupported environment detected</h2>
+					<strong>RoboTag requires Javascript and can only run in browsers with canvas support (basically everything except IE8 and below)</strong>
+				</div>
+			</div>
+		</div>
+	</noscript>
+	<div id="rt-header">
+		<div class="navbar navbar-fixed-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a href="/" class="brand"> <span alt="RoboTag logo" class="img-logo-sm"></span> </a>
+					<ul class="nav">
+						<li> <a href="https://github.com/mikeygee/RoboTag" target="_blank"> Help &amp; FAQ</a> </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="rt-demo-editors" class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<h2 class="page-header"> Demo<small> 3 steps to RoboTag (see <a href='https://github.com/mikeygee/RoboTag' target='_blank'> github</a> for complete rules and instructions)</small> </h2>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<h3 class="step1"> Step 1: Code<small> Write a Javascript function to control each robot, or try a sample robot</small> </h3>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span6 rt-editor-wrapper p1">
+				<div class="rt-code-header p1"> Player 1</div>
+				<div id="rt-editor1" class="rt-editor"></div>
+			</div>
+			<div class="span6 rt-editor-wrapper p2">
+				<div class="rt-code-header p2">Player 2</div>
+				<div id="rt-editor2" class="rt-editor"></div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<h3 class="step2"> Step 2: Watch<small> View the match to see the robots in action. This becomes active after 2 valid robots are submitted.</small></h3>
+			</div>
+		</div>
+	</div>
+	<div id="rt-demo-player-container" class="container">
+		<div class="row">
+			<div id="rt-demo-player" class="rt-player span12"></div>
+		</div>
+	</div>
+	<div id="rt-demo-signup" class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<h3 class="step3"> Step 3: Compete<small> Got something good? Submit your robot to compete in tournaments and see how you rank against the rest of the world.</small></h3>
+			<p>Server side development is still in progress. The end goal is to have a complete web app where you can save your robots and enter them into tournaments to compete against other people. In the mean time, you can experiment with the demo and save your code on your own.</p>
+			</div>
+		</div>
+	</div>
 
-<div class="topbar">
-	<div class="topbar-inner">
-	<div class="container">
-		<h3><a href="/RoboTag/"><img id="logo" src="images/logo_small.png"/></a></h3>
-		<ul>
-			<li><a href="/RoboTag/info">How It Works</a></li>
-			<li><a href="/RoboTag/play">Play Now</a></li>
-		</ul>
-		<ul class="nav secondary-nav">
-			<li><a href="#">Login</a></li>
-		</ul>
-	</div>
-	</div>
-</div>
-
-<div id="masthead">
-	<div class="container">
-	<div class="row">
-		<div class="span-two-thirds">
-			<h1>RoboTag is an AI strategy game for programmers.</h1>
-			<ul>
-				<li>&gt; Compete by programming a virtual robot to play a game of tag.</li>
-				<li>&gt; Implement your strategy in a Javascript function.</li>
-				<li>&gt; Our goal is to provide a simple, fun, and challenging game for programmers of any skill level. <a href="/RoboTag/info">Learn more</a> or <a href="/RoboTag/play">try it now</a>.</li>
-			</ul>
+<!-- underscore templates-->
+	<script id="template-editor" type="text/_template">
+		<div class='rt-code-header'>
+			<div class='name'>{{ctx.name}}</div>
+			<div class='status'></div>
 		</div>
-		<div id="leaderboard" class="span-one-third">
-			<h5>Current Leaders</h5>
-			<table class="common-table">
-				<thead>
-				<tr>
-					<th>Rank</th>
-					<th>Name</th>
-					<th>Win&nbsp;%</th>
-				</tr>
-				</thead>
-				<tr><td>1</td><td>Placeholder</td><td>100.0</td></tr>
-				<tr><td>2</td><td>Placeholder</td><td>90.0</td></tr>
-				<tr><td>3</td><td>Placeholder</td><td>80.0</td></tr>
-			</table>
+		<div id='{{ctx.editorId}}' class='rt-editor'>{!ctx.fn}}</div>
+			<div class='rt-code-footer'>
+			<select class='rt-robot-select'>
+			<% if(ctx.demo) { %><option value=''>{{ctx.name}}</option> <% } %>
+				<optgroup label="Samples">
+				<% _.each(ctx.robots, function(fn, name) { %>
+					<option value='{{name}}'>{{name}}</option>
+				<% }); %>
+				</optgroup>
+			</select>
+			<button type='button' class='btn btn-primary submit'>Submit</button><br>
+			<label class='checkbox inline'><input type='checkbox' id='toggle-line-wrap' checked>Wrap lines</label>
+			<label class='checkbox inline'><input type='checkbox' id='toggle-vim-mode'>Vim mode</label>
 		</div>
-	</div>
-	</div>
-</div>
-
-<div id="summary">
-	<div class="container">
-	<div class="row">
-		<div id="code-description" class="span-one-third">
-			<h3>Code</h3>
-			<p>Think of a strategy and implement it in a Javascript function.</p>
+	</script>
+	<script id="template-player" type="text/_template">
+		<div class='p1 name'><span>Player 1</span></div>
+		<div class='p1 stats'>
+			<div class='img-robot1-sm'></div>
+			<div class='fuel'><span>1000</span></div>
 		</div>
-		<div id="observe-description" class="span-one-third">
-			<h3>Watch</h3>
-			<p>Run matches and watch your robot / strategy in action.</p>
+		<div class='p2 name'><span>Player 2</span></div>
+		<div class='p2 stats'>
+			<div class='img-robot2-sm'></div>
+			<div class='fuel'><span>1000</span></div>
 		</div>
-		<div id="signup-description" class="span-one-third">
-			<h3>Compete</h3>
-			<p>Sign up and submit your robot to compete in tournaments.</p>
+		<div class='message'><span class='empty'></span></div>
+		<div class='time'>TIME: <span>1000</span></div>
+		<canvas class="rt-canvas-robots" width="550px" height="550px"></canvas>
+		<canvas class="rt-canvas-items" width="550px" height="550px"></canvas>
+		<canvas class="rt-canvas-fuel" width="650px" height="550px"></canvas>
+		<div class="rt-canvas-overlay">
+			<div><i class='icon-play'></i></div>
 		</div>
-	</div>
-	<div class="row">
-		<div id="code" class="span-one-third">
+		<div class='rt-player-nav'>
+			<i class="icon-play play"></i>
+			<div class="rt-player-slider"></div>
 		</div>
-		<div id="observe" class="span-one-third">
+		<div class='rt-player-options'>
+			<h6>Display Options</h6>
+			<label class='checkbox'><input id='disp-item-vals' type='checkbox' checked> Item values</label>
+			<label class='checkbox'><input id='disp-fuel-bars' type='checkbox' checked> Fuel bars</label>
+			<label class='checkbox'><input id='disp-coordinates' type='checkbox'> Positions</label>
+			<label class='checkbox'><input id='disp-path' type='checkbox'> Paths</label>
+			<h6>Game Options</h6>
+			<label>Fuel tanks: <span id='fuel-qty'>{{ctx.match.map.fuelQty}}</span></label><div id='fuel-slider'></div>
+			<label>Mines: <span id='mine-qty'>{{ctx.match.map.mineQty}}</span></label><div id='mine-slider'></div>
+			<button class='btn btn-small swap'><i class='icon-shuffle'></i> Swap</button><br>
+			<button class='btn btn-small rematch'><i class='icon-spinner'></i> Rematch</button>
 		</div>
-		<div id="signup" class="span-one-third">
-			<form>
-				<input type="text" placeholder="Full Name"/>
-				<input type="text" placeholder="Email"/>
-				<input type="password" placeholder="Password"/>
-				<input class="btn primary" type="submit" value="Sign Up"/>
-			</form>
-			<strong>Not active yet. Coming soon!</strong>
-		</div>
-	</div>
-	</div>
-</div>
-
-<div id="footer">
-	<div class="container">
-	<div class="row">
-		<div class="span16">
-		&copy; 2011 RoboTag - by <a href="http://mikeygee.com" target="_blank">Mikey Gee </a>
-		</div>
-	</div>
-	</div>
-</div>
-
+	</script>
+	<script type="text/javascript">
+		(function() {
+			var el = document.createElement('canvas'); // if no canvas support, show error message
+			if(!(el.getContext && el.getContext('2d'))) {
+				document.body.innerHTML = '<div id="rt-noscript"><div class="noscript-wrapper"><div class="noscript-img-wrapper"><div class="img-logo"></div></div><div id="noscript-message"><h2>Unsupported environment detected</h2><strong>RoboTag requires Javascript and can only run in browsers with canvas support (basically everything except IE8 and below)</strong></div></div></div>'
+			}
+		})();
+	</script>
+	<script src="/js/jquery-2.0.2.min.js" type="text/javascript"></script>
+	<script src="/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+	<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/underscore-min.js" type="text/javascript"></script>
+	<script src="/js/robotag.js" type="text/javascript"></script>
+	<script src="/js/robotag-client.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(RoboTag.initDemo);
+	</script>
 </body>
 </html>
