@@ -384,14 +384,14 @@ _.extend(RoboTag.CanvasPlayer.prototype, {
 	},
 	pause: function() {
 		clearInterval(this.intervalId);
-		this.$('i.pause').attr('class', 'icon-play-2 play');
+		this.$('i.pause').attr('class', 'icon-play play');
 		this.status = 'paused';
 	},
 	togglePlayer: function() { // clicking on the canvas toggles play/pause with animation
 		var $div = this.$('.rt-canvas-overlay > div');
 		var $icon = $div.find('i');
 		if(this.status == 'paused') {
-			$icon.attr('class', 'icon-play-2');
+			$icon.attr('class', 'icon-play');
 			this.play();
 		}
 		else if(this.status == 'playing') {
