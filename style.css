@@ -626,7 +626,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini{*padding-top:1px;*padding-
 .ui-corner-all,.ui-corner-bottom,.ui-corner-right,.ui-corner-br{border-bottom-right-radius:4px;}
 .ui-widget-overlay{background:#666666;opacity:.5;filter:alpha(opacity=50);}
 .ui-widget-shadow{margin:-5px 0 0 -5px;padding:5px;background:#000000;opacity:.2;filter:alpha(opacity=20);border-radius:5px;}
-.img-check,.img-fuel,.img-fuel-sm,.img-logo-sm,.img-logo,.img-mine,.img-mine-sm,.img-robot1,.img-robot2,.img-robot1-sm,.img-robot2-sm,.img-x{background:url('/images/sprite.png') no-repeat;display:inline-block;}
+.img-check,.img-fuel,.img-fuel-sm,.img-logo-sm,.img-logo,.img-mine,.img-mine-sm,.img-robot1,.img-robot2,.img-robot1-sm,.img-robot2-sm,.img-x{background:url('./images/sprite.png') no-repeat;display:inline-block;}
 .img-check{background-position:0 0;width:101px;height:99px;}
 .img-fuel{background-position:-522px 0;width:100px;height:100px;}
 .img-fuel-sm{background-position:-549px -124px;width:20px;height:20px;}
